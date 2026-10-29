@@ -1,1 +1,148 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TRAGIC SPOOFER | Made by LzzFxndz</title>
+<style>
+:root{color-scheme:dark;--red:#ff263d;--bg:#09090d;--panel:#131319}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#f5f5f7;font-family:Arial,sans-serif}
+header{padding:25px 7%;border-bottom:1px solid #292932;background:#0d0d12}
+.logo{font-size:27px;font-weight:900;letter-spacing:2px}
+.logo span{color:var(--red)}
+header p{color:#999;margin-bottom:0}
+main{max-width:1000px;margin:35px auto;padding:0 18px}
+.hero{text-align:center;padding:35px 10px}
+.hero h1{font-size:clamp(30px,6vw,55px);margin:0}
+.hero h1 span{color:var(--red)}
+.hero p{color:#a5a5b0}
+.panel{background:var(--panel);border:1px solid #292932;border-radius:12px;padding:22px;margin:18px 0}
+h2{font-size:18px;margin-top:0}
+label{display:block;font-size:13px;color:#bcbcc6;margin:15px 0 7px}
+input,button{font:inherit}
+input[type=text],input[type=file]{width:100%;padding:12px;border:1px solid #34343f;border-radius:7px;background:#0a0a0f;color:white}
+button{background:var(--red);color:white;border:0;border-radius:7px;padding:12px 16px;font-weight:bold;cursor:pointer;margin:8px 5px 0 0}
+button.secondary{background:#282832}
+button:hover{filter:brightness(1.15)}
+.note{color:#a5a5b0;font-size:13px;line-height:1.6}
+.status{padding:12px;background:#0b0b10;border-radius:7px;margin-top:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+footer{text-align:center;color:#777;padding:30px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">TRAGIC <span>SPOOFER</span></div>
+  <p>Made by LzzFxndz</p>
+</header>
+<main>
+  <section class="hero">
+    <h1>ANIMATION <span>TOOLS</span></h1>
+    <p>Scan and replace animation IDs in project files you are authorised to modify.</p>
+  </section>
+
+  <section class="panel">
+    <h2>01 / Upload project</h2>
+    <p class="note">Select an XML-format Roblox Studio project file (.rbxlx or .rbxmx). Keep a backup of your original project.</p>
+    <label for="file">Project file</label>
+    <input id="file" type="file" accept=".rbxlx,.rbxmx,.xml">
+    <div id="fileStatus" class="status">No file selected.</div>
+  </section>
+
+  <section class="panel">
+    <h2>02 / Replace animation IDs</h2>
+    <p class="note">Enter the old and new numeric IDs. This demo processes the uploaded XML locally in your browser.</p>
+    <label for="oldId">Existing animation ID</label>
+    <input id="oldId" type="text" inputmode="numeric" placeholder="e.g. 1234567890">
+    <label for="newId">Replacement animation ID</label>
+    <input id="newId" type="text" inputmode="numeric" placeholder="e.g. 9876543210">
+    <button id="scan">Scan file</button>
+    <button id="replace">Replace ID</button>
+    <button id="export" class="secondary">Export modified XML</button>
+    <div id="result" class="status">Upload an XML project to begin.</div>
+  </section>
+  <p class="note">Limitations: this browser prototype supports XML text files, not binary .rbxl files. Review exported files in Roblox Studio before using them. It does not grant access to animations you do not own or have permission to use.</p>
+</main>
+<footer>TRAGIC SPOOFER · Made by LzzFxndz</footer>
+<script>
+(() => {
+  const fileInput = document.getElementById('file');
+  const fileStatus = document.getElementById('fileStatus');
+  const result = document.getElementById('result');
+  let original = '';
+  let modified = '';
+  let fileName = 'project.rbxlx';
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files[0];
+    original = '';
+    modified = '';
+    if (!file) return;
+    fileName = file.name;
+    try {
+      original = await file.text();
+      if (!original.trim().startsWith('<')) {
+        fileStatus.textContent = 'This does not look like an XML file. Upload an .rbxlx or .rbxmx file.';
+        original = '';
+        return;
+      }
+      modified = original;
+      fileStatus.textContent = 'Loaded: ' + file.name + '\nSize: ' + file.size.toLocaleString() + ' bytes';
+      result.textContent = 'File ready. Click Scan file to find animation IDs.';
+    } catch {
+      fileStatus.textContent = 'Could not read this file.';
+    }
+  });
+
+  document.getElementById('scan').addEventListener('click', () => {
+    if (!original) {
+      result.textContent = 'Upload a valid XML project file first.';
+      return;
+    }
+    const ids = [...original.matchAll(/(?:rbxassetid:\/\/|AnimationId[^>]*>)[^0-9]*([0-9]{5,})/gi)]
+      .map(m => m[1]);
+    const unique = [...new Set(ids)];
+    result.textContent = unique.length
+      ? 'Found ' + unique.length + ' matching ID(s):\n' + unique.join('\n')
+      : 'No animation IDs found by this basic text scan. Some project formats store IDs differently.';
+  });
+
+  document.getElementById('replace').addEventListener('click', () => {
+    if (!original) {
+      result.textContent = 'Upload a valid XML project file first.';
+      return;
+    }
+    const oldId = document.getElementById('oldId').value.trim();
+    const newId = document.getElementById('newId').value.trim();
+    if (!/^\d+$/.test(oldId) || !/^\d+$/.test(newId)) {
+      result.textContent = 'Enter numeric IDs in both fields.';
+      return;
+    }
+    const escaped = oldId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pattern = new RegExp(escaped, 'g');
+    const matches = modified.match(pattern);
+    const count = matches ? matches.length : 0;
+    modified = modified.replace(pattern, newId);
+    result.textContent = 'Replaced ' + count + ' occurrence(s) of ' + oldId + ' with ' + newId + '.';
+  });
+
+  document.getElementById('export').addEventListener('click', () => {
+    if (!modified) {
+      result.textContent = 'Upload a valid XML project file first.';
+      return;
+    }
+    const blob = new Blob([modified], {type:'application/xml;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName.replace(/\.(rbxlx|rbxmx|xml)$/i, '') + '-modified.xml';
+    a.click();
+    URL.revokeObjectURL(url);
+    result.textContent = 'Export requested. Review the downloaded XML in Roblox Studio.';
+  });
+})();
+</script>
+</body>
+</html>
+
