@@ -1,36 +1,83 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TRAGIC SPOOFER</title>
+<title>TRAGIC SPOOFER | Made by LzzFxndz</title>
 <style>
-:root{color-scheme:dark;--red:#ff263d;--bg:#09090d;--panel:#14141c;--line:#30303c}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:#f5f5f7;font-family:Arial,sans-serif}
-header{padding:22px 6%;border-bottom:1px solid var(--line)}
-.logo{font-size:27px;font-weight:900;letter-spacing:2px}
-.logo span,h1 span{color:var(--red)}
-header p,.muted{color:#a5a5b0;font-size:13px}
-main{max-width:850px;margin:35px auto;padding:0 16px}
-.hero{text-align:center;padding:22px 0}
-h1{font-size:clamp(30px,6vw,48px);margin:0}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;margin:18px 0}
-h2{font-size:18px;margin-top:0}
-label{display:block;margin:14px 0 7px;font-size:13px;color:#c9c9d2}
-input,textarea,button{font:inherit}
-input[type=file],input[type=text],textarea{width:100%;background:#0b0b11;color:white;border:1px solid #393946;border-radius:7px;padding:12px}
-textarea{min-height:125px;resize:vertical;font-family:monospace}
-button{background:var(--red);border:0;border-radius:7px;padding:12px 15px;color:white;font-weight:bold;cursor:pointer;margin:10px 7px 0 0}
-button.secondary{background:#30303b}
-button:disabled{opacity:.4;cursor:not-allowed}
-.status{margin-top:12px;padding:13px;border-radius:7px;background:#09090e;border:1px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.6}
-.good{color:#69e6a3}
-.warning{color:#ffb7bf}
-footer{text-align:center;color:#777;padding:28px;font-size:12px}
+:root {
+  color-scheme: dark;
+  --red: #ff263d;
+  --bg: #09090d;
+  --panel: #14141c;
+  --line: #30303c;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: #f5f5f7;
+  font-family: Arial, sans-serif;
+}
+header {
+  padding: 22px 6%;
+  border-bottom: 1px solid var(--line);
+  background: #0d0d12;
+}
+.logo { font-size: 27px; font-weight: 900; letter-spacing: 2px; }
+.logo span, h1 span { color: var(--red); }
+header p, .muted { color: #a5a5b0; font-size: 13px; line-height: 1.6; }
+main { max-width: 900px; margin: 32px auto; padding: 0 16px; }
+.hero { text-align: center; padding: 22px 0; }
+h1 { font-size: clamp(30px, 6vw, 48px); margin: 0; }
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 18px 0;
+}
+h2 { font-size: 18px; margin-top: 0; }
+label { display: block; margin: 14px 0 7px; font-size: 13px; color: #c9c9d2; }
+input, textarea, button { font: inherit; }
+input[type=file], textarea {
+  width: 100%;
+  background: #0b0b11;
+  color: white;
+  border: 1px solid #393946;
+  border-radius: 7px;
+  padding: 12px;
+}
+textarea { min-height: 130px; resize: vertical; font-family: monospace; }
+button {
+  background: var(--red);
+  border: 0;
+  border-radius: 7px;
+  padding: 12px 15px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 10px 7px 0 0;
+}
+button.secondary { background: #30303b; }
+button:disabled { opacity: .4; cursor: not-allowed; }
+.status {
+  margin-top: 12px;
+  padding: 13px;
+  border-radius: 7px;
+  background: #09090e;
+  border: 1px solid var(--line);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.good { color: #69e6a3; }
+.warning { color: #ffb7bf; }
+footer { text-align: center; color: #777; padding: 28px; font-size: 12px; }
 </style>
 </head>
+
 <body>
 <header>
   <div class="logo">TRAGIC <span>SPOOFER</span></div>
@@ -40,27 +87,27 @@ footer{text-align:center;color:#777;padding:28px;font-size:12px}
 <main>
   <section class="hero">
     <h1>ANIMATION <span>CONVERTER</span></h1>
-    <p class="muted">Upload one project. Process authorised animation IDs. Download one project.</p>
+    <p class="muted">Upload a Roblox XML place file, map animation IDs, and download the modified file.</p>
   </section>
 
   <section class="panel">
     <h2>01 / Select your project</h2>
-    <p class="muted">Choose an XML-format Roblox Studio place file (.rbxlx). Processing takes place in this browser.</p>
+    <p class="muted">Select an XML-format Roblox Studio place file (.rbxlx). Processing happens locally in your browser.</p>
     <label for="file">Input file</label>
     <input id="file" type="file" accept=".rbxlx,.xml">
     <div id="fileStatus" class="status">Waiting for a file.</div>
   </section>
 
   <section class="panel">
-    <h2>02 / Scan animation references</h2>
-    <p class="muted">Scans properties named AnimationId. Only those properties are considered for replacement.</p>
+    <h2>02 / Scan animations</h2>
+    <p class="muted">Looks for properties named AnimationId in the XML text.</p>
     <button id="scan" disabled>Scan animations</button>
     <div id="scanStatus" class="status">Upload a project first.</div>
   </section>
 
   <section class="panel">
-    <h2>03 / Replacement mappings</h2>
-    <p class="muted">Enter one mapping per line, in the format old ID = new ID. Use IDs you own or are authorised to use.</p>
+    <h2>03 / Replace IDs</h2>
+    <p class="muted">Enter one mapping per line, using IDs you own or are authorised to use.</p>
     <label for="mappings">ID mappings</label>
     <textarea id="mappings" spellcheck="false" placeholder="123456789 = 987654321&#10;234567891 = 876543219"></textarea>
     <button id="process" disabled>Process project</button>
@@ -68,7 +115,7 @@ footer{text-align:center;color:#777;padding:28px;font-size:12px}
     <div id="processStatus" class="status">No changes processed yet.</div>
   </section>
 
-  <p class="muted">Keep your original project as a backup. Review the output in Roblox Studio. This prototype edits XML property values and cannot guarantee compatibility with every project or animation setup.</p>
+  <p class="muted">Keep a backup of your original file. This text-based prototype may not support every Roblox project format. Test the output in Roblox Studio before using it.</p>
 </main>
 
 <footer>TRAGIC SPOOFER · Made by LzzFxndz</footer>
@@ -76,52 +123,60 @@ footer{text-align:center;color:#777;padding:28px;font-size:12px}
 <script>
 (() => {
   const $ = id => document.getElementById(id);
+
   let originalText = "";
-  let originalName = "project.rbxlx";
-  let parsedDocument = null;
+  let originalName = "project";
   let outputText = "";
-  let scanned = [];
-  let counts = {};
 
   function show(id, message, cls = "") {
     $(id).textContent = message;
     $(id).className = "status " + cls;
   }
 
-  function parseXML(text) {
-    const doc = new DOMParser().parseFromString(text, "application/xml");
-    if (doc.getElementsByTagName("parsererror").length) {
-      throw new Error("The file contains invalid XML and could not be parsed.");
-    }
-    if (!doc.documentElement) throw new Error("The XML document is empty.");
-    return doc;
-  }
-
-  function isAnimationProperty(el) {
-    return el.nodeType === 1 &&
-      el.getAttribute("name") === "AnimationId";
-  }
-
-  function getAnimationProperties(doc) {
-    return Array.from(doc.getElementsByTagName("*")).filter(isAnimationProperty);
-  }
-
-  function extractIds(value) {
-    const ids = [];
-    const re = /rbxassetid:\/\/(\d+)|^(\d+)$/g;
+  // Find AnimationId property blocks without serializing the entire XML.
+  function getAnimationPropertyBlocks(text) {
+    const re = /<(string|Content|url|token|binarystring|ProtectedString)\b(?=[^>]*\bname\s*=\s*(["'])AnimationId\2)[^>]*>[\s\S]*?<\/\1\s*>/gi;
+    const blocks = [];
     let match;
-    const trimmed = value.trim();
 
-    while ((match = re.exec(trimmed)) !== null) {
-      ids.push(match[1] || match[2]);
+    while ((match = re.exec(text)) !== null) {
+      blocks.push({
+        start: match.index,
+        end: re.lastIndex,
+        text: match[0]
+      });
     }
 
-    // Also recognise IDs in a value containing a standard asset URI.
-    if (trimmed.includes("rbxassetid://")) {
-      for (const m of trimmed.matchAll(/rbxassetid:\/\/(\d+)/g)) {
-        ids.push(m[1]);
+    // Avoid counting nested matches twice.
+    return blocks.filter((block, index, all) =>
+      !all.some((other, otherIndex) =>
+        index !== otherIndex &&
+        other.start <= block.start &&
+        other.end >= block.end &&
+        (other.start < block.start || other.end > block.end)
+      )
+    );
+  }
+
+  function extractIds(block) {
+    const ids = [];
+    const patterns = [
+      /rbxassetid:\/\/(\d+)/gi,
+      /[?&]id=(\d+)/gi,
+      /<url>\s*(\d+)\s*<\/url>/gi,
+      /<string\b[^>]*>\s*(\d+)\s*<\/string>/gi
+    ];
+
+    for (const pattern of patterns) {
+      let match;
+      while ((match = pattern.exec(block)) !== null) {
+        ids.push(match[1]);
       }
     }
+
+    const bare = block.match(/>\s*(\d+)\s*<\//);
+    if (bare) ids.push(bare[1]);
+
     return [...new Set(ids)];
   }
 
@@ -134,144 +189,145 @@ footer{text-align:center;color:#777;padding:28px;font-size:12px}
       if (!line) continue;
 
       const match = line.match(/^(\d+)\s*(?:=|->)\s*(\d+)$/);
+
       if (!match) {
-        throw new Error("Line " + (i + 1) +
-          " is invalid. Use: old ID = new ID");
+        throw new Error("Line " + (i + 1) + " is invalid. Use: old ID = new ID");
       }
-      if (match[1] === match[2]) {
-        throw new Error("Line " + (i + 1) +
-          " has identical old and new IDs.");
-      }
+
       if (map.has(match[1])) {
-        throw new Error("The old ID " + match[1] +
-          " appears more than once.");
+        throw new Error("Old ID " + match[1] + " appears more than once.");
       }
+
       map.set(match[1], match[2]);
     }
 
-    if (!map.size) throw new Error("Enter at least one ID mapping.");
+    if (!map.size) throw new Error("Enter at least one mapping first.");
     return map;
   }
 
   $("file").addEventListener("change", async () => {
     const file = $("file").files[0];
+
     originalText = "";
-    parsedDocument = null;
     outputText = "";
-    scanned = [];
-    counts = {};
+
     $("scan").disabled = true;
     $("process").disabled = true;
     $("download").disabled = true;
+
     show("scanStatus", "Upload a project first.");
     show("processStatus", "No changes processed yet.");
 
     if (!file) return;
 
-    if (!/\.rbxlx$|\.xml$/i.test(file.name)) {
-      show("fileStatus", "Please choose an .rbxlx or .xml file.", "warning");
+    if (!/\.(rbxlx|xml)$/i.test(file.name)) {
+      show("fileStatus", "Please select an .rbxlx or .xml file.", "warning");
       return;
     }
 
     try {
       originalText = await file.text();
-      parsedDocument = parseXML(originalText);
+
+      if (!originalText.trim()) {
+        throw new Error("The selected file is empty.");
+      }
+
       originalName = file.name.replace(/\.(rbxlx|xml)$/i, "");
 
-      const props = getAnimationProperties(parsedDocument);
+      const blocks = getAnimationPropertyBlocks(originalText);
+
       $("scan").disabled = false;
       $("process").disabled = false;
-      show("fileStatus",
+
+      show(
+        "fileStatus",
         "Loaded: " + file.name +
         "\nSize: " + file.size.toLocaleString() + " bytes" +
-        "\nAnimationId properties: " + props.length,
-        "good");
-      show("scanStatus", "Ready to scan.");
-    } catch (err) {
+        "\nAnimationId property blocks detected: " + blocks.length,
+        "good"
+      );
+
+      show("scanStatus", "Ready to scan. Click Scan animations.");
+    } catch (error) {
       originalText = "";
-      parsedDocument = null;
-      show("fileStatus", "Could not load file: " + err.message, "warning");
+      show("fileStatus", "Could not read file: " + error.message, "warning");
     }
   });
 
   $("scan").addEventListener("click", () => {
-    if (!parsedDocument) return;
+    if (!originalText) return;
 
-    try {
-      const props = getAnimationProperties(parsedDocument);
-      const found = [];
+    const blocks = getAnimationPropertyBlocks(originalText);
+    const ids = [];
 
-      for (const prop of props) {
-        for (const id of extractIds(prop.textContent || "")) {
-          found.push(id);
-        }
-      }
-
-      scanned = [...new Set(found)];
-      if (!scanned.length) {
-        show("scanStatus",
-          "No IDs were found in AnimationId properties. Other project structures may store animation references differently.");
-        return;
-      }
-
-      show("scanStatus",
-        "Unique animation IDs found: " + scanned.length +
-        "\n\n" + scanned.join("\n"),
-        "good");
-    } catch (err) {
-      show("scanStatus", err.message, "warning");
+    for (const block of blocks) {
+      ids.push(...extractIds(block.text));
     }
+
+    const uniqueIds = [...new Set(ids)];
+
+    show(
+      "scanStatus",
+      uniqueIds.length
+        ? "Unique IDs found: " + uniqueIds.length + "\n\n" + uniqueIds.join("\n")
+        : "No supported IDs were found in AnimationId properties. The file may use another format.",
+      uniqueIds.length ? "good" : "warning"
+    );
   });
 
   $("process").addEventListener("click", () => {
-    if (!parsedDocument) return;
+    if (!originalText) return;
 
     try {
       const mappings = parseMappings();
-      const doc = parseXML(originalText);
-      const props = getAnimationProperties(doc);
-      counts = {};
-      for (const oldId of mappings.keys()) counts[oldId] = 0;
+      let result = originalText;
+      const blocks = getAnimationPropertyBlocks(result).reverse();
+      const counts = Object.fromEntries(
+        [...mappings.keys()].map(id => [id, 0])
+      );
 
-      // Change only text nodes within AnimationId properties.
-      for (const prop of props) {
-        const walker = doc.createTreeWalker(prop, NodeFilter.SHOW_TEXT);
-        const textNodes = [];
-        let node;
-        while ((node = walker.nextNode())) textNodes.push(node);
+      for (const block of blocks) {
+        let updated = block.text;
 
-        for (const textNode of textNodes) {
-          let value = textNode.nodeValue;
-          for (const [oldId, newId] of mappings) {
-            const re = new RegExp(
-              "(rbxassetid://)" + oldId + "(?!\\d)|^" + oldId + "$"
-            );
-            if (re.test(value)) {
-              value = value.replace(re, (full, prefix) =>
-                prefix ? prefix + newId : newId
-              );
-              counts[oldId]++;
-            }
-          }
-          textNode.nodeValue = value;
+        for (const [oldId, newId] of mappings) {
+          const patterns = [
+            new RegExp("(rbxassetid://)" + oldId + "(?!\\d)", "g"),
+            new RegExp("([?&]id=)" + oldId + "(?!\\d)", "g"),
+            new RegExp("(>\\s*)" + oldId + "(\\s*<)", "g")
+          ];
+
+          const replacements = ["$1" + newId, "$1" + newId, "$1" + newId + "$2"];
+
+          patterns.forEach((pattern, index) => {
+            const before = updated;
+            updated = updated.replace(pattern, replacements[index]);
+            if (updated !== before) counts[oldId]++;
+          });
         }
+
+        result =
+          result.slice(0, block.start) +
+          updated +
+          result.slice(block.end);
       }
 
-      outputText = new XMLSerializer().serializeToString(doc);
+      outputText = result;
       $("download").disabled = false;
 
       const report = [...mappings.entries()].map(([oldId, newId]) =>
-        oldId + " → " + newId + ": " + counts[oldId] + " occurrence(s)"
+        oldId + " → " + newId + ": " + counts[oldId] + " replacement match(es)"
       );
 
-      show("processStatus",
-        "Processing complete.\n\n" + report.join("\n") +
-        "\n\nDownload the output and inspect it in Roblox Studio.",
-        "good");
-    } catch (err) {
+      show(
+        "processStatus",
+        "Processing finished.\n\n" + report.join("\n") +
+        "\n\nDownload the result and test it in Roblox Studio.",
+        "good"
+      );
+    } catch (error) {
       outputText = "";
       $("download").disabled = true;
-      show("processStatus", err.message, "warning");
+      show("processStatus", error.message, "warning");
     }
   });
 
@@ -281,17 +337,18 @@ footer{text-align:center;color:#777;padding:28px;font-size:12px}
     const blob = new Blob([outputText], {
       type: "application/xml;charset=utf-8"
     });
+
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
+
     link.href = url;
     link.download = originalName + "-modified.rbxlx";
+
     document.body.appendChild(link);
     link.click();
     link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    show("processStatus",
-      $("processStatus").textContent + "\n\nDownload started.",
-      "good");
+
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
   });
 })();
 </script>
