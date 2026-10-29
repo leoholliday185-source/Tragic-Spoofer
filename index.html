@@ -4,31 +4,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TRAGIC SPOOFER | Made by LzzFxndz</title>
+<title>TRAGIC SPOOFER</title>
 <style>
-:root{color-scheme:dark;--red:#ff263d;--bg:#09090d;--panel:#131319}
+:root{color-scheme:dark;--red:#ff263d;--bg:#09090d;--panel:#14141c;--line:#30303c}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:#f5f5f7;font-family:Arial,sans-serif}
-header{padding:25px 7%;border-bottom:1px solid #292932;background:#0d0d12}
+header{padding:22px 6%;border-bottom:1px solid var(--line)}
 .logo{font-size:27px;font-weight:900;letter-spacing:2px}
-.logo span{color:var(--red)}
-header p{color:#999;margin-bottom:0}
-main{max-width:1000px;margin:35px auto;padding:0 18px}
-.hero{text-align:center;padding:35px 10px}
-.hero h1{font-size:clamp(30px,6vw,55px);margin:0}
-.hero h1 span{color:var(--red)}
-.hero p{color:#a5a5b0}
-.panel{background:var(--panel);border:1px solid #292932;border-radius:12px;padding:22px;margin:18px 0}
+.logo span,h1 span{color:var(--red)}
+header p,.muted{color:#a5a5b0;font-size:13px}
+main{max-width:850px;margin:35px auto;padding:0 16px}
+.hero{text-align:center;padding:22px 0}
+h1{font-size:clamp(30px,6vw,48px);margin:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;margin:18px 0}
 h2{font-size:18px;margin-top:0}
-label{display:block;font-size:13px;color:#bcbcc6;margin:15px 0 7px}
-input,button{font:inherit}
-input[type=text],input[type=file]{width:100%;padding:12px;border:1px solid #34343f;border-radius:7px;background:#0a0a0f;color:white}
-button{background:var(--red);color:white;border:0;border-radius:7px;padding:12px 16px;font-weight:bold;cursor:pointer;margin:8px 5px 0 0}
-button.secondary{background:#282832}
-button:hover{filter:brightness(1.15)}
-.note{color:#a5a5b0;font-size:13px;line-height:1.6}
-.status{padding:12px;background:#0b0b10;border-radius:7px;margin-top:12px;white-space:pre-wrap;overflow-wrap:anywhere}
-footer{text-align:center;color:#777;padding:30px}
+label{display:block;margin:14px 0 7px;font-size:13px;color:#c9c9d2}
+input,textarea,button{font:inherit}
+input[type=file],input[type=text],textarea{width:100%;background:#0b0b11;color:white;border:1px solid #393946;border-radius:7px;padding:12px}
+textarea{min-height:125px;resize:vertical;font-family:monospace}
+button{background:var(--red);border:0;border-radius:7px;padding:12px 15px;color:white;font-weight:bold;cursor:pointer;margin:10px 7px 0 0}
+button.secondary{background:#30303b}
+button:disabled{opacity:.4;cursor:not-allowed}
+.status{margin-top:12px;padding:13px;border-radius:7px;background:#09090e;border:1px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.6}
+.good{color:#69e6a3}
+.warning{color:#ffb7bf}
+footer{text-align:center;color:#777;padding:28px;font-size:12px}
 </style>
 </head>
 <body>
@@ -36,113 +36,264 @@ footer{text-align:center;color:#777;padding:30px}
   <div class="logo">TRAGIC <span>SPOOFER</span></div>
   <p>Made by LzzFxndz</p>
 </header>
+
 <main>
   <section class="hero">
-    <h1>ANIMATION <span>TOOLS</span></h1>
-    <p>Scan and replace animation IDs in project files you are authorised to modify.</p>
+    <h1>ANIMATION <span>CONVERTER</span></h1>
+    <p class="muted">Upload one project. Process authorised animation IDs. Download one project.</p>
   </section>
 
   <section class="panel">
-    <h2>01 / Upload project</h2>
-    <p class="note">Select an XML-format Roblox Studio project file (.rbxlx or .rbxmx). Keep a backup of your original project.</p>
-    <label for="file">Project file</label>
-    <input id="file" type="file" accept=".rbxlx,.rbxmx,.xml">
-    <div id="fileStatus" class="status">No file selected.</div>
+    <h2>01 / Select your project</h2>
+    <p class="muted">Choose an XML-format Roblox Studio place file (.rbxlx). Processing takes place in this browser.</p>
+    <label for="file">Input file</label>
+    <input id="file" type="file" accept=".rbxlx,.xml">
+    <div id="fileStatus" class="status">Waiting for a file.</div>
   </section>
 
   <section class="panel">
-    <h2>02 / Replace animation IDs</h2>
-    <p class="note">Enter the old and new numeric IDs. This demo processes the uploaded XML locally in your browser.</p>
-    <label for="oldId">Existing animation ID</label>
-    <input id="oldId" type="text" inputmode="numeric" placeholder="e.g. 1234567890">
-    <label for="newId">Replacement animation ID</label>
-    <input id="newId" type="text" inputmode="numeric" placeholder="e.g. 9876543210">
-    <button id="scan">Scan file</button>
-    <button id="replace">Replace ID</button>
-    <button id="export" class="secondary">Export modified XML</button>
-    <div id="result" class="status">Upload an XML project to begin.</div>
+    <h2>02 / Scan animation references</h2>
+    <p class="muted">Scans properties named AnimationId. Only those properties are considered for replacement.</p>
+    <button id="scan" disabled>Scan animations</button>
+    <div id="scanStatus" class="status">Upload a project first.</div>
   </section>
-  <p class="note">Limitations: this browser prototype supports XML text files, not binary .rbxl files. Review exported files in Roblox Studio before using them. It does not grant access to animations you do not own or have permission to use.</p>
+
+  <section class="panel">
+    <h2>03 / Replacement mappings</h2>
+    <p class="muted">Enter one mapping per line, in the format old ID = new ID. Use IDs you own or are authorised to use.</p>
+    <label for="mappings">ID mappings</label>
+    <textarea id="mappings" spellcheck="false" placeholder="123456789 = 987654321&#10;234567891 = 876543219"></textarea>
+    <button id="process" disabled>Process project</button>
+    <button id="download" class="secondary" disabled>Download modified file</button>
+    <div id="processStatus" class="status">No changes processed yet.</div>
+  </section>
+
+  <p class="muted">Keep your original project as a backup. Review the output in Roblox Studio. This prototype edits XML property values and cannot guarantee compatibility with every project or animation setup.</p>
 </main>
+
 <footer>TRAGIC SPOOFER · Made by LzzFxndz</footer>
+
 <script>
 (() => {
-  const fileInput = document.getElementById('file');
-  const fileStatus = document.getElementById('fileStatus');
-  const result = document.getElementById('result');
-  let original = '';
-  let modified = '';
-  let fileName = 'project.rbxlx';
+  const $ = id => document.getElementById(id);
+  let originalText = "";
+  let originalName = "project.rbxlx";
+  let parsedDocument = null;
+  let outputText = "";
+  let scanned = [];
+  let counts = {};
 
-  fileInput.addEventListener('change', async () => {
-    const file = fileInput.files[0];
-    original = '';
-    modified = '';
+  function show(id, message, cls = "") {
+    $(id).textContent = message;
+    $(id).className = "status " + cls;
+  }
+
+  function parseXML(text) {
+    const doc = new DOMParser().parseFromString(text, "application/xml");
+    if (doc.getElementsByTagName("parsererror").length) {
+      throw new Error("The file contains invalid XML and could not be parsed.");
+    }
+    if (!doc.documentElement) throw new Error("The XML document is empty.");
+    return doc;
+  }
+
+  function isAnimationProperty(el) {
+    return el.nodeType === 1 &&
+      el.getAttribute("name") === "AnimationId";
+  }
+
+  function getAnimationProperties(doc) {
+    return Array.from(doc.getElementsByTagName("*")).filter(isAnimationProperty);
+  }
+
+  function extractIds(value) {
+    const ids = [];
+    const re = /rbxassetid:\/\/(\d+)|^(\d+)$/g;
+    let match;
+    const trimmed = value.trim();
+
+    while ((match = re.exec(trimmed)) !== null) {
+      ids.push(match[1] || match[2]);
+    }
+
+    // Also recognise IDs in a value containing a standard asset URI.
+    if (trimmed.includes("rbxassetid://")) {
+      for (const m of trimmed.matchAll(/rbxassetid:\/\/(\d+)/g)) {
+        ids.push(m[1]);
+      }
+    }
+    return [...new Set(ids)];
+  }
+
+  function parseMappings() {
+    const map = new Map();
+    const lines = $("mappings").value.split(/\r?\n/);
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line) continue;
+
+      const match = line.match(/^(\d+)\s*(?:=|->)\s*(\d+)$/);
+      if (!match) {
+        throw new Error("Line " + (i + 1) +
+          " is invalid. Use: old ID = new ID");
+      }
+      if (match[1] === match[2]) {
+        throw new Error("Line " + (i + 1) +
+          " has identical old and new IDs.");
+      }
+      if (map.has(match[1])) {
+        throw new Error("The old ID " + match[1] +
+          " appears more than once.");
+      }
+      map.set(match[1], match[2]);
+    }
+
+    if (!map.size) throw new Error("Enter at least one ID mapping.");
+    return map;
+  }
+
+  $("file").addEventListener("change", async () => {
+    const file = $("file").files[0];
+    originalText = "";
+    parsedDocument = null;
+    outputText = "";
+    scanned = [];
+    counts = {};
+    $("scan").disabled = true;
+    $("process").disabled = true;
+    $("download").disabled = true;
+    show("scanStatus", "Upload a project first.");
+    show("processStatus", "No changes processed yet.");
+
     if (!file) return;
-    fileName = file.name;
+
+    if (!/\.rbxlx$|\.xml$/i.test(file.name)) {
+      show("fileStatus", "Please choose an .rbxlx or .xml file.", "warning");
+      return;
+    }
+
     try {
-      original = await file.text();
-      if (!original.trim().startsWith('<')) {
-        fileStatus.textContent = 'This does not look like an XML file. Upload an .rbxlx or .rbxmx file.';
-        original = '';
+      originalText = await file.text();
+      parsedDocument = parseXML(originalText);
+      originalName = file.name.replace(/\.(rbxlx|xml)$/i, "");
+
+      const props = getAnimationProperties(parsedDocument);
+      $("scan").disabled = false;
+      $("process").disabled = false;
+      show("fileStatus",
+        "Loaded: " + file.name +
+        "\nSize: " + file.size.toLocaleString() + " bytes" +
+        "\nAnimationId properties: " + props.length,
+        "good");
+      show("scanStatus", "Ready to scan.");
+    } catch (err) {
+      originalText = "";
+      parsedDocument = null;
+      show("fileStatus", "Could not load file: " + err.message, "warning");
+    }
+  });
+
+  $("scan").addEventListener("click", () => {
+    if (!parsedDocument) return;
+
+    try {
+      const props = getAnimationProperties(parsedDocument);
+      const found = [];
+
+      for (const prop of props) {
+        for (const id of extractIds(prop.textContent || "")) {
+          found.push(id);
+        }
+      }
+
+      scanned = [...new Set(found)];
+      if (!scanned.length) {
+        show("scanStatus",
+          "No IDs were found in AnimationId properties. Other project structures may store animation references differently.");
         return;
       }
-      modified = original;
-      fileStatus.textContent = 'Loaded: ' + file.name + '\nSize: ' + file.size.toLocaleString() + ' bytes';
-      result.textContent = 'File ready. Click Scan file to find animation IDs.';
-    } catch {
-      fileStatus.textContent = 'Could not read this file.';
+
+      show("scanStatus",
+        "Unique animation IDs found: " + scanned.length +
+        "\n\n" + scanned.join("\n"),
+        "good");
+    } catch (err) {
+      show("scanStatus", err.message, "warning");
     }
   });
 
-  document.getElementById('scan').addEventListener('click', () => {
-    if (!original) {
-      result.textContent = 'Upload a valid XML project file first.';
-      return;
+  $("process").addEventListener("click", () => {
+    if (!parsedDocument) return;
+
+    try {
+      const mappings = parseMappings();
+      const doc = parseXML(originalText);
+      const props = getAnimationProperties(doc);
+      counts = {};
+      for (const oldId of mappings.keys()) counts[oldId] = 0;
+
+      // Change only text nodes within AnimationId properties.
+      for (const prop of props) {
+        const walker = doc.createTreeWalker(prop, NodeFilter.SHOW_TEXT);
+        const textNodes = [];
+        let node;
+        while ((node = walker.nextNode())) textNodes.push(node);
+
+        for (const textNode of textNodes) {
+          let value = textNode.nodeValue;
+          for (const [oldId, newId] of mappings) {
+            const re = new RegExp(
+              "(rbxassetid://)" + oldId + "(?!\\d)|^" + oldId + "$"
+            );
+            if (re.test(value)) {
+              value = value.replace(re, (full, prefix) =>
+                prefix ? prefix + newId : newId
+              );
+              counts[oldId]++;
+            }
+          }
+          textNode.nodeValue = value;
+        }
+      }
+
+      outputText = new XMLSerializer().serializeToString(doc);
+      $("download").disabled = false;
+
+      const report = [...mappings.entries()].map(([oldId, newId]) =>
+        oldId + " → " + newId + ": " + counts[oldId] + " occurrence(s)"
+      );
+
+      show("processStatus",
+        "Processing complete.\n\n" + report.join("\n") +
+        "\n\nDownload the output and inspect it in Roblox Studio.",
+        "good");
+    } catch (err) {
+      outputText = "";
+      $("download").disabled = true;
+      show("processStatus", err.message, "warning");
     }
-    const ids = [...original.matchAll(/(?:rbxassetid:\/\/|AnimationId[^>]*>)[^0-9]*([0-9]{5,})/gi)]
-      .map(m => m[1]);
-    const unique = [...new Set(ids)];
-    result.textContent = unique.length
-      ? 'Found ' + unique.length + ' matching ID(s):\n' + unique.join('\n')
-      : 'No animation IDs found by this basic text scan. Some project formats store IDs differently.';
   });
 
-  document.getElementById('replace').addEventListener('click', () => {
-    if (!original) {
-      result.textContent = 'Upload a valid XML project file first.';
-      return;
-    }
-    const oldId = document.getElementById('oldId').value.trim();
-    const newId = document.getElementById('newId').value.trim();
-    if (!/^\d+$/.test(oldId) || !/^\d+$/.test(newId)) {
-      result.textContent = 'Enter numeric IDs in both fields.';
-      return;
-    }
-    const escaped = oldId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const pattern = new RegExp(escaped, 'g');
-    const matches = modified.match(pattern);
-    const count = matches ? matches.length : 0;
-    modified = modified.replace(pattern, newId);
-    result.textContent = 'Replaced ' + count + ' occurrence(s) of ' + oldId + ' with ' + newId + '.';
-  });
+  $("download").addEventListener("click", () => {
+    if (!outputText) return;
 
-  document.getElementById('export').addEventListener('click', () => {
-    if (!modified) {
-      result.textContent = 'Upload a valid XML project file first.';
-      return;
-    }
-    const blob = new Blob([modified], {type:'application/xml;charset=utf-8'});
+    const blob = new Blob([outputText], {
+      type: "application/xml;charset=utf-8"
+    });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName.replace(/\.(rbxlx|rbxmx|xml)$/i, '') + '-modified.xml';
-    a.click();
-    URL.revokeObjectURL(url);
-    result.textContent = 'Export requested. Review the downloaded XML in Roblox Studio.';
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = originalName + "-modified.rbxlx";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    show("processStatus",
+      $("processStatus").textContent + "\n\nDownload started.",
+      "good");
   });
 })();
 </script>
 </body>
 </html>
-
